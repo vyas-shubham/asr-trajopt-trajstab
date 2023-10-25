@@ -1,0 +1,69 @@
+name = 'ASR Paper Detumble Config'
+
+
+chaser_name_in_urdf = 'ChaserSC'
+target_name_in_urdf = "TargetSC"
+
+[paths]
+sc_path = 'planarSCDetumble_no_collision.urdf'
+initial_guess = 'detumbleTraj.pkl'
+
+[epsilons]
+unit_quaternion = 0.00001
+dynamics_equation = 0.0
+final_velocity = 0.001
+
+[initial_state]
+position = [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.72, 1.2, 0.72]
+velocity = []
+acceleration = []
+
+[trajopt_options]
+knot_points = 100
+delta_t_min = 0.01
+delta_t_max = 0.2
+equal_dt = true
+use_actuation_limits = true
+use_initial_guess = true
+
+[trajopt_cost_weights]
+total_time = 1
+base_torques = 1
+base_forces = 10
+joint_torques = 1
+final_base_velocity = 4e8
+final_joint_velocity = 4e4
+
+
+[joint_limits]
+base_torque_limit = [2.5, 2.5, 2.5]
+base_force_limit = [2, 2, 2]
+joint_torque_limit = 0.5
+
+[solver_options]
+# solver_name = 'ipopt'
+solver_name = 'snopt'
+
+
+[tvlqr_options]
+Q_tilqr_base_rot_pos = [1e5, 1e5, 1e5]
+Q_tilqr_base_lin_pos = [1e-1, 1e-1, 1e-1]
+Q_tilqr_joint_pos = [1e2, 1e2, 1e2]
+Q_tilqr_base_rot_vel = [5e4, 5e4, 5e4]
+Q_tilqr_base_lin_vel = [1, 1, 1]
+Q_tilqr_joint_vel = [1e3, 1e3, 1e3]
+
+R_tilqr_base_torque = [1e-1, 1e-1, 1e-1]
+R_tilqr_base_force = [1, 1, 1]
+R_tilqr_joint_torque = [1, 1, 1]
+
+Q_tvlqr_base_rot_pos = [1e5, 1e5, 1e5]
+Q_tvlqr_base_lin_pos = [1e-1, 1e-1, 1e-1]
+Q_tvlqr_joint_pos = [1e2, 1e2, 1e2]
+Q_tvlqr_base_rot_vel = [5e4, 5e4, 5e4]
+Q_tvlqr_base_lin_vel = [1, 1, 1]
+Q_tvlqr_joint_vel = [1e3, 1e3, 1e3]
+
+R_tvlqr_base_torque = [1e-1, 1e-1, 1e-1]
+R_tvlqr_base_force = [1, 1, 1]
+R_tvlqr_joint_torque = [1e2, 1e2, 1e2]

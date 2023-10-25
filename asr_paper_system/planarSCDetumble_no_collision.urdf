@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+
+<!-- A URDF Model where the base S/C has a 3-link arm (RRR) and has the target S/C attached to it i.e. post-capture scenario.
+
+No actuator limits have been placed in the model as it's easier to edit them in the optimization setup code.
+
+Actuator Limits to be applied for optimization:
+
+Base Rotation Limit (via Reaction Wheels) = 30 deg/s = 0.5236
+Joint Velocity Limit = 50 deg/s = 0.8726
+Base Reaction Wheels Torque limit = 1Nm
+Joint Acutator Torque Limit = 5Nm
+ -->
+
+
+<robot name="planarDetumble">
+
+    <!-- Colors -->
+    <material name="Grey">
+        <color rgba="0.2 0.2 0.2 0.2"/>
+    </material>
+    <material name="Orange">
+        <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+    </material>
+    <material name="Blue">
+        <color rgba="0.5 0.7 1.0 1.0"/>
+    </material>
+    <material name="LightBlue">
+        <color rgba="0.5 0.82 1.0 0.5"/>
+    </material>
+    <material name="Red">
+        <color rgba="1 0 0 1.0"/>
+    </material>
+    <material name="LightRed">
+        <color rgba="1 0.3 0.3 0.5"/>
+    </material>
+
+    <!-- Base S/C With robot arm Description -->
+
+    <link name="ChaserSC">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="100"/>
+            <inertia ixx="66.66" ixy="0" ixz="0" iyy="66.66" iyz="0" izz="66.66"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <box size="2 2 2"/>
+            </geometry>
+            <material name="LightBlue"/>
+        </visual>
+    </link>
+
+    <!-- Left Solar Panel-->
+    <link name="Left_Panel">
+        <visual>
+            <origin rpy="0 0 0" xyz="1 0 0"/>
+            <geometry>
+                <box size="2 0.2 1.25"/>
+            </geometry>
+            <material name="LightBlue"/>
+        </visual>
+    </link>
+
+    <!-- Right Solar Panel-->
+    <link name="Right_Panel">
+        <visual>
+            <origin rpy="0 0 0" xyz="-1 0 0"/>
+            <geometry>
+                <box size="2 0.2 1.25"/>
+            </geometry>
+            <material name="LightBlue"/>
+        </visual>
+    </link>
+
+    <joint name="Spacecraft_Left_Panel" type="fixed">
+        <parent link="ChaserSC"/>
+        <child link="Left_Panel"/>
+        <origin rpy="0 0 0" xyz="1 0 0"/>
+    </joint>
+
+    <joint name="Spacecraft_Right_Panel" type="fixed">
+        <parent link="ChaserSC"/>
+        <child link="Right_Panel"/>
+        <origin rpy="0 0 0" xyz="-1 0 0"/>
+    </joint>
+
+    <link name="link_1">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0.45"/>
+            <mass value="10"/>
+            <inertia ixx="0.5396" ixy="0" ixz="0" iyy="0.5396" iyz="0" izz="0.0125"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.45"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.8"/>
+            </geometry>
+            <material name="Blue"/>
+        </visual>
+        <visual>
+            <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.1"/>
+            </geometry>
+            <material name="Red"/>
+        </visual>
+    </link>
+
+    <joint name="Joint_1" type="continuous">
+        <parent link="ChaserSC"/>
+        <child link="link_1"/>
+        <origin rpy="0 0 0" xyz="0 0 1.05"/>
+        <axis xyz="0 1 0"/>
+        <dynamics damping="0.1"/>
+        <!-- <limit velocity="0.8726" effort="5"/> -->
+    </joint>
+
+    <transmission type="SimpleTransmission" name="joint_1_trans">
+        <actuator name="joint_1_actuator"/>
+        <joint name="Joint_1"/>
+        <mechanicalReduction>1</mechanicalReduction>
+    </transmission>
+
+    <link name="link_2">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0.35"/>
+            <mass value="8"/>
+            <inertia ixx="0.245" ixy="0" ixz="0" iyy="0.245" iyz="0" izz="0.01"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.35"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.6"/>
+            </geometry>
+            <material name="Blue"/>
+        </visual>
+        <visual>
+            <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.1"/>
+            </geometry>
+            <material name="Red"/>
+        </visual>
+    </link>
+
+    <joint name="Joint_2" type="continuous">
+        <parent link="link_1"/>
+        <child link="link_2"/>
+        <origin rpy="0 0 0" xyz="0 0 0.9"/>
+        <axis xyz="0 1 0"/>
+        <dynamics damping="0.1"/>
+        <!-- <limit velocity="0.8726" effort="5"/> -->
+    </joint>
+
+    <transmission type="SimpleTransmission" name="joint_2_trans">
+        <actuator name="joint_2_actuator"/>
+        <joint name="Joint_2"/>
+        <mechanicalReduction>1</mechanicalReduction>
+    </transmission>
+
+    <link name="link_3">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0.15"/>
+            <mass value="4"/>
+            <inertia ixx="0.01583" ixy="0" ixz="0" iyy="0.01583" iyz="0" izz="0.005"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.15"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.2"/>
+            </geometry>
+            <material name="Blue"/>
+        </visual>
+        <visual>
+            <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.1"/>
+            </geometry>
+            <material name="Red"/>
+        </visual>
+    </link>
+
+    <joint name="Joint_3" type="continuous">
+        <parent link="link_2"/>
+        <child link="link_3"/>
+        <origin rpy="0 0 0" xyz="0 0 0.7"/>
+        <axis xyz="0 1 0"/>
+        <dynamics damping="0.1"/>
+        <!-- <limit velocity="0.8726" effort="5"/> -->
+    </joint>
+
+    <transmission type="SimpleTransmission" name="joint_3_trans">
+        <actuator name="joint_3_actuator"/>
+        <joint name="Joint_3"/>
+        <mechanicalReduction>1</mechanicalReduction>
+    </transmission>
+
+    <link name="link_ee">
+        <inertial>
+            <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+            <mass value="0.1"/>
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+        </inertial>
+        <visual>
+            <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.05" length="0.1"/>
+            </geometry>
+            <material name="Red"/>
+        </visual>
+    </link>
+
+    <joint name="joint_ee_fixed" type="fixed">
+        <parent link="link_3"/>
+        <child link="link_ee"/>
+        <origin rpy="0 0 0" xyz="0 0 0.3"/>
+    </joint>
+
+    <!-- Target S/C Description -->
+
+    <link name="TargetSC">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="50"/>
+            <inertia ixx="3" ixy="0" ixz="0" iyy="3" iyz="0" izz="3"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <box size="0.6 0.6 0.6"/>
+            </geometry>
+            <material name="LightRed"/>
+        </visual>
+    </link>
+
+    <joint name="targetSCGrasp" type="fixed">
+        <parent link="link_ee"/>
+        <child link="TargetSC"/>
+        <origin rpy="0 0 0" xyz="0 0 0.35"/>
+    </joint>
+
+    <!-- Target Solar Panel-->
+    <link name="Target_Panel">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.3"/>
+            <geometry>
+                <box size="0.3 0.075 0.6"/>
+            </geometry>
+            <material name="LightRed"/>
+        </visual>
+    </link>
+
+    <joint name="Target_Panel_Joint" type="fixed">
+        <parent link="TargetSC"/>
+        <child link="Target_Panel"/>
+        <origin rpy="0 0 0" xyz="0 0 0.3"/>
+    </joint>
+
+
+</robot>
