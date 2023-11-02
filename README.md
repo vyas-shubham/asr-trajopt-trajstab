@@ -4,6 +4,10 @@ This repository contains the code for Post-capture detumble trajectory stabiliza
 
 The `PostCapDetumbleTrajectory` class is provided in the file `PostCapDetumbleTrajOpt.py`. The `TVLQRTrajectoryStabilizer` class is provided in the file `TrajectoryStabilizationTVLQR.py`. Example use of these classes can be seen in the application folder `asr_paper_system`.
 
+<p align=center>
+![](docs/asr_paper_detumble_gif.gif)
+</p>
+
 ## Depencencies
 
 The repository has the following dependencies:
