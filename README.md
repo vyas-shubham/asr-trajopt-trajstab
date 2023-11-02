@@ -4,9 +4,24 @@ This repository contains the code for Post-capture detumble trajectory stabiliza
 
 The `PostCapDetumbleTrajectory` class is provided in the file `PostCapDetumbleTrajOpt.py`. The `TVLQRTrajectoryStabilizer` class is provided in the file `TrajectoryStabilizationTVLQR.py`. Example use of these classes can be seen in the application folder `asr_paper_system`.
 
+Animated GIF of the detumble simulation with TVLQR Controller:
+
 <div align="center">
 <img width="500" src="docs/asr_paper_detumble_gif.gif" />
 </div>
+
+Base and Joint Velocities and Torques During Detumble:
+
+<div align="center">
+<img width="300" src="docs/tvlqr_base_w.jpg" />
+<img width="300" src="docs/tvlqr_joint_vel.jpg" />
+<img width="300" src="docs/tvlqr_base_torques.jpg" />
+<img width="300" src="docs/tvlqr_joint_torques.jpg" />
+</div>
+
+
+
+
 
 ## Depencencies
 
